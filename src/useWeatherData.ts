@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
+import processLocationData from "./processLocationData.ts";
+import processWeatherData from "./processWeatherData.ts";
 
 export function useWeatherData() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [dataReadyState, setDataReadyState] = useState<
     "loading" | "error" | "ready"
   >("loading");
@@ -38,17 +41,14 @@ export function useWeatherData() {
         ]);
 
         setDataReadyState("ready");
-        setWeatherData(weatherResponseData);
-        setLocationData(locationResponseData);
+        setWeatherData(processWeatherData(weatherResponseData));
+        setLocationData(processLocationData(locationResponseData));
       },
       (error) => {
         setDataError(`Could not get current lat/long. ${error.message}`);
       },
     );
   }, []);
-
-  console.log(weatherData);
-  console.log(locationData);
 
   return {
     dataError,
