@@ -7,11 +7,13 @@ type ParsedData = {
     relative_humidity_2m: number;
     weather_code: number;
     wind_speed_10m: number;
+    pressure_msl: Array<number>;
   };
   current_units: {
     apparent_temperature: string;
     relative_humidity_2m: string;
     wind_speed_10m: string;
+    pressure_msl: string;
   };
   daily: {
     sunrise: Array<string>;
@@ -21,6 +23,15 @@ type ParsedData = {
     time: Array<string>;
     uv_index_max: Array<number>;
     weather_code: Array<number>;
+  };
+  hourly: {
+    temperature_2m: Array<number>;
+    time: Array<string>;
+    visibility: Array<number>;
+    weather_code: Array<number>;
+  };
+  hourly_units: {
+    visibility: string;
   };
 };
 
@@ -49,11 +60,13 @@ export default function processWeatherData(weatherData: ParsedData) {
       relative_humidity_2m: relative_humidity,
       weather_code: current_weather_code,
       wind_speed_10m: wind_speed,
+      pressure_msl: current_air_pressure,
     },
     current_units: {
       apparent_temperature: temperature_unit,
       relative_humidity_2m: humidity_unit,
       wind_speed_10m: wind_speed_unit,
+      pressure_msl: air_pressure_unit,
     },
     daily: {
       sunrise,
@@ -64,11 +77,37 @@ export default function processWeatherData(weatherData: ParsedData) {
       uv_index_max: daily_uv_index,
       weather_code: daily_weather_code,
     },
+    hourly: {
+      temperature_2m: hourly_temperature,
+      time: hourly_time,
+      visibility: hourly_visibility,
+      weather_code: hourly_weather_code,
+    },
   } = weatherData;
 
-  const data_for_7_days = next_7_dates.map((date, index) => {
+  // const current_hour_index = hourly_time
+  //   .slice(0, 24)
+  //   .findIndex(
+  //     (indexItem) =>
+  //       Number(new Date().toLocaleTimeString()) ===
+  //       new Date(indexItem).getHours(),
+  //   );
+
+  const start_index = current_hour_index !== -1 ? current_hour_index : 0;
+  const next_24_hours = hourly_time.slice(start_index, start_index + 24);
+  const data_for_the_next_24_hours = next_24_hours.map((hour, index) => {
     return {
-      day: `${date.slice(-2)} ${monthName[Number(date.slice(5, 7)) - 1]}`,
+      time: new Date(hour).getHours(),
+      weather_code: hourly_weather_code[start_index + index],
+      temperature: `${hourly_temperature[start_index + index]}${temperature_unit}`,
+    };
+  });
+
+  const current_visibility = hourly_visibility[current_hour_index] / 1000;
+
+  const data_for_the_next_7_days = next_7_dates.map((date, index) => {
+    return {
+      day: `${new Date(date).getDate()} ${monthName[Number(date.slice(5, 7)) - 1]}`,
       weather_code: `${daily_weather_code[index]}`,
       daily_max_temperature: `${daily_max_temperature[index]}${temperature_unit}`,
       daily_min_temperature: `${daily_min_temperature[index]}${temperature_unit}`,
@@ -86,6 +125,8 @@ export default function processWeatherData(weatherData: ParsedData) {
     current_temperature: `${current_temeprature}${temperature_unit}`,
     relative_humidity: `${relative_humidity}${humidity_unit}`,
     wind_speed: `${wind_speed}${wind_speed_unit}`,
+    air_pressure: `${current_air_pressure}${air_pressure_unit}`,
+    visibility: `${current_visibility}km`,
     sunrise: {
       hour: new Date(sunrise[0]).getHours(),
       minutes: new Date(sunrise[0]).getMinutes(),
@@ -95,9 +136,10 @@ export default function processWeatherData(weatherData: ParsedData) {
       minutes: new Date(sunset[0]).getMinutes(),
     },
     uv_index: daily_uv_index[0],
-    data_for_7_days: data_for_7_days,
+    data_for_the_next_24_hours: data_for_the_next_24_hours,
+    data_for_the_next_7_days: data_for_the_next_7_days,
   };
 
-  console.log(weatherData);
+  console.log(processedWeatherData);
   return processedWeatherData;
 }

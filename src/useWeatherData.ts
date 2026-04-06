@@ -16,7 +16,7 @@ export function useWeatherData() {
       async (position) => {
         const { latitude, longitude } = position.coords;
         const weatherDataPromise = fetch(
-          `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=sunrise,sunset,uv_index_max,weather_code,temperature_2m_max,temperature_2m_min&hourly=temperature_2m,weather_code,visibility,surface_pressure&current=is_day,temperature_2m,weather_code,relative_humidity_2m,apparent_temperature,wind_speed_10m`,
+          `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=sunrise,sunset,uv_index_max,weather_code,temperature_2m_max,temperature_2m_min&hourly=temperature_2m,weather_code,visibility&current=is_day,temperature_2m,weather_code,relative_humidity_2m,apparent_temperature,wind_speed_10m,pressure_msl`,
         );
         const locationPromise = fetch(
           `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&zoom=18&format=json`,
