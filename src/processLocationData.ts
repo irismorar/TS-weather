@@ -1,19 +1,22 @@
-type ParsedData = {
-  address: {
-    city: string;
-    county: string;
-    country: string;
+export type ParsedLocationData = {
+  address?: {
+    city?: string;
+    county?: string;
+    country?: string;
   };
-};
+} | null;
 
-export default function processLocationData(locationData: ParsedData) {
-  const {
-    address: { city, county, country },
-  } = locationData;
+export default function processLocationData(locationData: ParsedLocationData) {
+  if (!locationData?.address) {
+    return {
+      location: "Unknown location",
+    };
+  }
+  const { city = "", county = "", country = "" } = locationData.address;
 
-  const processedLocationData = {
-    location: `${city}, ${county}, ${country}`,
+  return {
+    location: [city, county, country]
+      .filter((value) => Boolean(value))
+      .join(", "),
   };
-
-  return processedLocationData;
 }

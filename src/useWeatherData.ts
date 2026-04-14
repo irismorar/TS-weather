@@ -52,6 +52,7 @@ export function useWeatherData() {
 
   return {
     dataError,
+    dataReadyState,
     weatherData,
     locationData,
   };

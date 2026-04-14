@@ -1,11 +1,15 @@
-type ParsedData = {
+import { weatherDictionary } from "./weatherDictionary";
+
+type WeatherCode = keyof typeof weatherDictionary;
+
+export type ParsedWeatherData = {
   current: {
     time: string;
     is_day: number;
     apparent_temperature: number;
     temperature_2m: number;
     relative_humidity_2m: number;
-    weather_code: number;
+    weather_code: WeatherCode;
     wind_speed_10m: number;
     pressure_msl: Array<number>;
   };
@@ -22,20 +26,20 @@ type ParsedData = {
     temperature_2m_min: Array<number>;
     time: Array<string>;
     uv_index_max: Array<number>;
-    weather_code: Array<number>;
+    weather_code: Array<WeatherCode>;
   };
   hourly: {
     temperature_2m: Array<number>;
     time: Array<string>;
     visibility: Array<number>;
-    weather_code: Array<number>;
+    weather_code: Array<WeatherCode>;
   };
   hourly_units: {
     visibility: string;
   };
 };
 
-export default function processWeatherData(weatherData: ParsedData) {
+export default function processWeatherData(weatherData: ParsedWeatherData) {
   const monthName = [
     "January",
     "February",
@@ -49,6 +53,16 @@ export default function processWeatherData(weatherData: ParsedData) {
     "October",
     "November",
     "December",
+  ];
+
+  const dayName = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
   ];
 
   const {
@@ -85,13 +99,13 @@ export default function processWeatherData(weatherData: ParsedData) {
     },
   } = weatherData;
 
-  // const current_hour_index = hourly_time
-  //   .slice(0, 24)
-  //   .findIndex(
-  //     (indexItem) =>
-  //       Number(new Date().toLocaleTimeString()) ===
-  //       new Date(indexItem).getHours(),
-  //   );
+  const todayName = dayName[new Date(current_time).getDay()];
+
+  const current_hour_index = hourly_time
+    .slice(0, 24)
+    .findIndex(
+      (indexItem) => new Date().getHours() === new Date(indexItem).getHours(),
+    );
 
   const start_index = current_hour_index !== -1 ? current_hour_index : 0;
   const next_24_hours = hourly_time.slice(start_index, start_index + 24);
@@ -114,13 +128,22 @@ export default function processWeatherData(weatherData: ParsedData) {
     };
   });
 
+  const current_min_temperature =
+    data_for_the_next_7_days[0].daily_min_temperature;
+  const current_max_temperature =
+    data_for_the_next_7_days[0].daily_max_temperature;
+
   const processedWeatherData = {
     current_time: {
-      hour: new Date(current_time).getHours(),
-      minutes: new Date(current_time).getMinutes(),
+      hour: new Date().getHours(),
+      minutes: new Date().getMinutes(),
     },
+    current_date: data_for_the_next_7_days[0].day,
+    today_name: todayName,
     is_day: is_day === 0 ? "night" : "day",
     current_weather_code: current_weather_code,
+    current_min_temperature,
+    current_max_temperature,
     current_apparent_temperature: `${current_apparent_temperature}${temperature_unit}`,
     current_temperature: `${current_temeprature}${temperature_unit}`,
     relative_humidity: `${relative_humidity}${humidity_unit}`,
@@ -140,6 +163,7 @@ export default function processWeatherData(weatherData: ParsedData) {
     data_for_the_next_7_days: data_for_the_next_7_days,
   };
 
+  console.log(weatherData);
   console.log(processedWeatherData);
   return processedWeatherData;
 }

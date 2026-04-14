@@ -1,0 +1,46 @@
+import processLocationData from "./processLocationData";
+import { weatherDictionary } from "./weatherDictionary";
+
+type WeatherCode = keyof typeof weatherDictionary;
+
+type Props = {
+  current_temperature: string;
+  current_day_name: string;
+  current_date: string;
+  current_hour: {
+    hour: number;
+    minutes: number;
+  };
+  current_weather_code: WeatherCode;
+  weather_dictionary: typeof weatherDictionary;
+  current_min_temperature: string;
+  current_max_temperature: string;
+  processed_location: ReturnType<typeof processLocationData>;
+};
+
+export function MainCurrentInfo({
+  current_temperature,
+  current_day_name,
+  current_date,
+  current_hour: { hour, minutes },
+  current_weather_code,
+  weather_dictionary,
+  current_min_temperature,
+  current_max_temperature,
+  processed_location,
+}: Props) {
+  return (
+    <section className="current_main_info">
+      <div className="current_main_temeprature">{current_temperature}</div>
+      <div className="current_date_container">
+        {current_day_name}, {current_date} {hour < 10 ? "0" + hour : hour}:
+        {minutes < 10 ? "0" + minutes : minutes}
+      </div>
+      <div>
+        {weather_dictionary[current_weather_code].name}{" "}
+        {current_min_temperature}/{current_max_temperature}
+      </div>
+      <div>{processed_location.location}</div>
+    </section>
+  );
+}
