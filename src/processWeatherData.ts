@@ -1,45 +1,6 @@
-import { weatherDictionary } from "./weatherDictionary";
+import type { WeatherData } from "./weatherSchema";
 
-type WeatherCode = keyof typeof weatherDictionary;
-
-export type ParsedWeatherData = {
-  current: {
-    time: string;
-    is_day: number;
-    apparent_temperature: number;
-    temperature_2m: number;
-    relative_humidity_2m: number;
-    weather_code: WeatherCode;
-    wind_speed_10m: number;
-    pressure_msl: Array<number>;
-  };
-  current_units: {
-    apparent_temperature: string;
-    relative_humidity_2m: string;
-    wind_speed_10m: string;
-    pressure_msl: string;
-  };
-  daily: {
-    sunrise: Array<string>;
-    sunset: Array<string>;
-    temperature_2m_max: Array<number>;
-    temperature_2m_min: Array<number>;
-    time: Array<string>;
-    uv_index_max: Array<number>;
-    weather_code: Array<WeatherCode>;
-  };
-  hourly: {
-    temperature_2m: Array<number>;
-    time: Array<string>;
-    visibility: Array<number>;
-    weather_code: Array<WeatherCode>;
-  };
-  hourly_units: {
-    visibility: string;
-  };
-};
-
-export default function processWeatherData(weatherData: ParsedWeatherData) {
+export default function processWeatherData(weatherData: WeatherData) {
   const monthName = [
     "January",
     "February",

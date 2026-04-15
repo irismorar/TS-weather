@@ -1,12 +1,6 @@
-export type ParsedLocationData = {
-  address?: {
-    city?: string;
-    county?: string;
-    country?: string;
-  };
-} | null;
+import type { LocationData } from "./locationSchema";
 
-export default function processLocationData(locationData: ParsedLocationData) {
+export default function processLocationData(locationData: LocationData) {
   if (!locationData?.address) {
     return {
       location: "Unknown location",

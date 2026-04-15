@@ -1,15 +1,21 @@
 import { useState, useEffect } from "react";
 import processLocationData from "./processLocationData.ts";
 import processWeatherData from "./processWeatherData.ts";
+import { WeatherDataSchema } from "./weatherSchema.ts";
+import { LocationDataSchema } from "./locationSchema.ts";
+import { ZodError } from "zod";
 
 export function useWeatherData() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [dataReadyState, setDataReadyState] = useState<
     "loading" | "error" | "ready"
   >("loading");
   const [dataError, setDataError] = useState("");
-  const [weatherData, setWeatherData] = useState<object | null>(null);
-  const [locationData, setLocationData] = useState<object | null>(null);
+  const [weatherData, setWeatherData] = useState<ReturnType<
+    typeof processWeatherData
+  > | null>(null);
+  const [locationData, setLocationData] = useState<ReturnType<
+    typeof processLocationData
+  > | null>(null);
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
@@ -40,11 +46,48 @@ export function useWeatherData() {
           locationResponse.json(),
         ]);
 
-        setDataReadyState("ready");
-        setWeatherData(processWeatherData(weatherResponseData));
-        setLocationData(processLocationData(locationResponseData));
+        try {
+          const validatedWeatherData =
+            WeatherDataSchema.parse(weatherResponseData);
+          const processedWeatherData = processWeatherData(validatedWeatherData);
+          setDataReadyState("ready");
+          setWeatherData(processedWeatherData);
+        } catch (error) {
+          setDataReadyState("error");
+          if (error instanceof ZodError) {
+            setDataError(
+              `Weather API returned unexpected data, ${error.issues}`,
+            );
+          } else if (error instanceof Error) {
+            setDataError(error.message);
+          } else {
+            setDataError("Something went wrong.");
+          }
+        }
+
+        try {
+          const validatedLocationData =
+            LocationDataSchema.parse(locationResponseData);
+          const processedLocationData = processLocationData(
+            validatedLocationData,
+          );
+          setDataReadyState("ready");
+          setLocationData(processedLocationData);
+        } catch (error) {
+          setDataReadyState("error");
+          if (error instanceof ZodError) {
+            setDataError(
+              `Location API returned unexpected data, ${error.issues}`,
+            );
+          } else if (error instanceof Error) {
+            setDataError(error.message);
+          } else {
+            setDataError("Something went wrong.");
+          }
+        }
       },
       (error) => {
+        setDataReadyState("error");
         setDataError(`Could not get current lat/long. ${error.message}`);
       },
     );
