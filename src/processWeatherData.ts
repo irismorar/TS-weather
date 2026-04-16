@@ -83,7 +83,13 @@ export default function processWeatherData(weatherData: WeatherData) {
   const data_for_the_next_7_days = next_7_dates.map((date, index) => {
     return {
       day: `${new Date(date).getDate()} ${monthName[Number(date.slice(5, 7)) - 1]}`,
-      weather_code: `${daily_weather_code[index]}`,
+      day_name:
+        index === 0
+          ? "Today"
+          : index === 1
+            ? "Tomorrow"
+            : dayName[new Date(date).getDay()].slice(0, 3),
+      weather_code: daily_weather_code[index],
       daily_max_temperature: `${daily_max_temperature[index]}${temperature_unit}`,
       daily_min_temperature: `${daily_min_temperature[index]}${temperature_unit}`,
     };
@@ -124,7 +130,5 @@ export default function processWeatherData(weatherData: WeatherData) {
     data_for_the_next_7_days: data_for_the_next_7_days,
   };
 
-  console.log(weatherData);
-  console.log(processedWeatherData);
   return processedWeatherData;
 }

@@ -1,4 +1,3 @@
-import processLocationData from "./processLocationData";
 import { weatherDictionary } from "./weatherDictionary";
 
 type WeatherCode = keyof typeof weatherDictionary;
@@ -15,10 +14,10 @@ type Props = {
   weather_dictionary: typeof weatherDictionary;
   current_min_temperature: string;
   current_max_temperature: string;
-  processed_location: ReturnType<typeof processLocationData>;
+  location: string;
 };
 
-export function MainCurrentInfo({
+export function CurrentWeatherInfo({
   current_temperature,
   current_day_name,
   current_date,
@@ -27,12 +26,12 @@ export function MainCurrentInfo({
   weather_dictionary,
   current_min_temperature,
   current_max_temperature,
-  processed_location,
+  location,
 }: Props) {
   return (
-    <section className="current_main_info">
-      <div className="current_main_temeprature">{current_temperature}</div>
-      <div className="current_date_container">
+    <section className="current_weather_info">
+      <div className="current_weather_temeprature">{current_temperature}</div>
+      <div className="current_weather_container">
         {current_day_name}, {current_date} {hour < 10 ? "0" + hour : hour}:
         {minutes < 10 ? "0" + minutes : minutes}
       </div>
@@ -40,7 +39,7 @@ export function MainCurrentInfo({
         {weather_dictionary[current_weather_code].name}{" "}
         {current_min_temperature}/{current_max_temperature}
       </div>
-      <div>{processed_location.location}</div>
+      <div>{location}</div>
     </section>
   );
 }

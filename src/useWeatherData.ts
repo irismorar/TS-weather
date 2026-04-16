@@ -31,18 +31,18 @@ export function useWeatherData() {
           },
         );
 
-        const [weatherDataResponse, locationResponse] = await Promise.all([
+        const [weatherResponse, locationResponse] = await Promise.all([
           weatherDataPromise,
           locationPromise,
         ]);
 
-        if (!weatherDataResponse.ok || !locationResponse.ok) {
+        if (!weatherResponse.ok || !locationResponse.ok) {
           setDataReadyState("error");
           setDataError("Could not get weather data or location data.");
         }
 
         const [weatherResponseData, locationResponseData] = await Promise.all([
-          weatherDataResponse.json(),
+          weatherResponse.json(),
           locationResponse.json(),
         ]);
 
