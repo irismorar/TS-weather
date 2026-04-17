@@ -93,6 +93,18 @@ export function useWeatherData() {
     );
   }, []);
 
+  useEffect(() => {
+    if (weatherData !== null && weatherData.is_day !== 0) {
+      document.body.setAttribute("data-isday", "true");
+    } else {
+      document.body.setAttribute("data-isday", "false");
+    }
+
+    return () => {
+      document.body.removeAttribute("data-isday");
+    };
+  }, [weatherData]);
+
   return {
     dataError,
     dataReadyState,

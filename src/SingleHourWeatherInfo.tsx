@@ -11,7 +11,7 @@ export function SingleHourWeatherInfo({
 }: SingleHourData) {
   return (
     <section className="one_hour_weather_info_container">
-      <div>{time}</div>
+      <div>{time}:00</div>
       <div>{weatherDictionary[weather_code].icon}</div>
       <div>{temperature}</div>
     </section>

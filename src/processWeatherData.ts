@@ -107,7 +107,7 @@ export default function processWeatherData(weatherData: WeatherData) {
     },
     current_date: data_for_the_next_7_days[0].day,
     today_name: todayName,
-    is_day: is_day === 0 ? "night" : "day",
+    is_day,
     current_weather_code: current_weather_code,
     current_min_temperature,
     current_max_temperature,

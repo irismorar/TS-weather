@@ -25,7 +25,7 @@ export function AdditionalCurrentWeatherInfo({
   visibility,
 }: Props) {
   return (
-    <section className="additional_info">
+    <section className="additional_current_weather_info_container">
       <div>
         <SunDim className="additional_weather_info_icon" />
         <div>UV index</div>

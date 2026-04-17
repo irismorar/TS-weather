@@ -31,15 +31,17 @@ export function CurrentWeatherInfo({
   return (
     <section className="current_weather_info">
       <div className="current_weather_temeprature">{current_temperature}</div>
-      <div className="current_weather_container">
-        {current_day_name}, {current_date} {hour < 10 ? "0" + hour : hour}:
-        {minutes < 10 ? "0" + minutes : minutes}
-      </div>
-      <div>
-        {weather_dictionary[current_weather_code].name}{" "}
-        {current_min_temperature}/{current_max_temperature}
-      </div>
-      <div>{location}</div>
+      <section>
+        <span className="current_weather_date">
+          {current_day_name}, {current_date} {hour < 10 ? "0" + hour : hour}:
+          {minutes < 10 ? "0" + minutes : minutes}
+        </span>
+        <span className="current_weather_temperature_limits">
+          {weather_dictionary[current_weather_code].name}{" "}
+          {current_min_temperature}/{current_max_temperature}
+        </span>
+        <span className="location">{location}</span>
+      </section>
     </section>
   );
 }
