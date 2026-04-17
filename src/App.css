@@ -146,7 +146,13 @@ main {
 
 .single_day_date_info {
   display: flex;
+  align-items: center;
   gap: clamp(1.5rem, 3vmin, 3.5rem);
+  flex: 1;
+}
+
+.single_day_date_info span{
+  border: 1px solid red;
   flex: 1;
 }
 
