@@ -13,18 +13,18 @@ export default function App() {
 
   if (dataReadyState === "loading") {
     return (
-      <div>
+      <div className="message_container">
         <span className="loader"></span> Loading...
       </div>
     );
   }
 
   if (dataReadyState === "error") {
-    return <div>{dataError}</div>;
+    return <div className="message_container">{dataError}</div>;
   }
 
   if (!weatherData || !locationData) {
-    return <div>Missing data.{dataError}</div>;
+    return <div className="message_container">Missing data.{dataError}</div>;
   }
 
   const {

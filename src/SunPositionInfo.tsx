@@ -9,11 +9,11 @@ export function SunPositionInfo({ sunrise, sunset }: SunPosition) {
     <section className="sun_position_container">
       <section className="sun_position_header">
         <div>
-          <Sunrise />
+          <Sunrise className="additional_weather_info_icon" />
           <div>Sunrise</div>
         </div>
         <div>
-          <Sunset />
+          <Sunset className="additional_weather_info_icon" />
           <div>Sunset</div>
         </div>
       </section>

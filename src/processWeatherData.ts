@@ -60,6 +60,10 @@ export default function processWeatherData(weatherData: WeatherData) {
     },
   } = weatherData;
 
+  function formatTemperature(temperature: number) {
+    return `${Math.round(temperature)}${temperature_unit}`;
+  }
+
   const todayName = dayName[new Date(current_time).getDay()];
 
   const current_hour_index = hourly_time
@@ -74,7 +78,7 @@ export default function processWeatherData(weatherData: WeatherData) {
     return {
       time: new Date(hour).getHours(),
       weather_code: hourly_weather_code[start_index + index],
-      temperature: `${hourly_temperature[start_index + index]}${temperature_unit}`,
+      temperature: formatTemperature(hourly_temperature[start_index + index]),
     };
   });
 
@@ -90,8 +94,8 @@ export default function processWeatherData(weatherData: WeatherData) {
             ? "Tomorrow"
             : dayName[new Date(date).getDay()].slice(0, 3),
       weather_code: daily_weather_code[index],
-      daily_max_temperature: `${daily_max_temperature[index]}${temperature_unit}`,
-      daily_min_temperature: `${daily_min_temperature[index]}${temperature_unit}`,
+      daily_max_temperature: formatTemperature(daily_max_temperature[index]),
+      daily_min_temperature: formatTemperature(daily_min_temperature[index]),
     };
   });
 
@@ -111,12 +115,14 @@ export default function processWeatherData(weatherData: WeatherData) {
     current_weather_code: current_weather_code,
     current_min_temperature,
     current_max_temperature,
-    current_apparent_temperature: `${current_apparent_temperature}${temperature_unit}`,
-    current_temperature: `${current_temeprature}${temperature_unit}`,
+    current_apparent_temperature: formatTemperature(
+      current_apparent_temperature,
+    ),
+    current_temperature: formatTemperature(current_temeprature),
     relative_humidity: `${relative_humidity}${humidity_unit}`,
-    wind_speed: `${wind_speed}${wind_speed_unit}`,
+    wind_speed: `${Math.round(wind_speed)}${wind_speed_unit}`,
     air_pressure: `${current_air_pressure}${air_pressure_unit}`,
-    visibility: `${current_visibility}km`,
+    visibility: `${Math.round(current_visibility)}km`,
     sunrise: {
       hour: new Date(sunrise[0]).getHours(),
       minutes: new Date(sunrise[0]).getMinutes(),
@@ -125,7 +131,7 @@ export default function processWeatherData(weatherData: WeatherData) {
       hour: new Date(sunset[0]).getHours(),
       minutes: new Date(sunset[0]).getMinutes(),
     },
-    uv_index: daily_uv_index[0],
+    uv_index: Math.round(daily_uv_index[0]),
     data_for_the_next_24_hours: data_for_the_next_24_hours,
     data_for_the_next_7_days: data_for_the_next_7_days,
   };

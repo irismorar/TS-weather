@@ -26,35 +26,35 @@ export function AdditionalCurrentWeatherInfo({
 }: Props) {
   return (
     <section className="additional_current_weather_info_container">
-      <div>
+      <div className="weather_metric_card">
         <SunDim className="additional_weather_info_icon" />
-        <div>UV index</div>
-        <div>{uv_index}</div>
+        <div className="weather_metric_label">UV index</div>
+        <div className="weather_metric_value">{uv_index}</div>
       </div>
-      <div>
+      <div className="weather_metric_card">
         <Thermometer className="additional_weather_info_icon" />
-        <div>Feels like</div>
-        <div>{apparent_temperature}</div>
+        <div className="weather_metric_label">Feels like</div>
+        <div className="weather_metric_value">{apparent_temperature}</div>
       </div>
-      <div>
+      <div className="weather_metric_card">
         <Droplet className="additional_weather_info_icon" />
-        <div>Humidity</div>
-        <div>{humidity}</div>
+        <div className="weather_metric_label">Humidity</div>
+        <div className="weather_metric_value">{humidity}</div>
       </div>
-      <div>
+      <div className="weather_metric_card">
         <Wind className="additional_weather_info_icon" />
-        <div>Wind speed</div>
-        <div>{wind}</div>
+        <div className="weather_metric_label">Wind speed</div>
+        <div className="weather_metric_value">{wind}</div>
       </div>
-      <div>
+      <div className="weather_metric_card">
         <WindArrowDown className="additional_weather_info_icon" />
-        <div>Air pressure</div>
-        <div>{air_pressure}</div>
+        <div className="weather_metric_label">Air pressure</div>
+        <div className="weather_metric_value">{air_pressure}</div>
       </div>
-      <div>
+      <div className="weather_metric_card">
         <Eye className="additional_weather_info_icon" />
-        <div>Visibility</div>
-        <div>{visibility}</div>
+        <div className="weather_metric_label">Visibility</div>
+        <div className="weather_metric_value">{visibility}</div>
       </div>
     </section>
   );

@@ -38,7 +38,7 @@ export function CurrentWeatherInfo({
         </span>
         <span className="current_weather_temperature_limits">
           {weather_dictionary[current_weather_code].name}{" "}
-          {current_min_temperature}/{current_max_temperature}
+          {current_min_temperature} / {current_max_temperature}
         </span>
         <span className="location">{location}</span>
       </section>

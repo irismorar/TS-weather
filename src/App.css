@@ -17,11 +17,11 @@ body {
 }
 
 body[data-isday="true"] {
-  background: rgb(59, 92, 182);
+  background: hsla(224, 51%, 47%, 1);
 }
 
 body[data-isday="false"] {
-  background: rgb(15, 23, 47);
+  background: hsla(225, 52%, 12%, 1);
 }
 
 main {
@@ -30,8 +30,16 @@ main {
   padding-inline: clamp(1rem, 4vw, 3rem);
 }
 
+.message_container {
+  font-size: clamp(1.5rem, 3vmin, 3rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.75rem, 2vmin, 1.5rem);
+}
+
 .temperature_main_container {
-  border: 1px solid red;
+  /* border: 1px solid red; */
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
@@ -40,7 +48,7 @@ main {
 }
 
 .current_weather_info {
-  border: 1px solid yellow;
+  /* border: 1px solid yellow; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -82,7 +90,7 @@ main {
   padding: clamp(1rem, 2vmin, 1.5rem);
   border-radius: clamp(1rem, 2vmin, 1.75rem);
   scrollbar-width: none;
-  background-color: rgba(24, 37, 74, 0.4);
+  background-color: hsla(224, 51%, 19%, 0.4);
   mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
   -webkit-mask-image: linear-gradient(
     to right,
@@ -108,8 +116,8 @@ main {
   gap: clamp(1rem, 1.5vmin, 2rem);
   padding: clamp(0.75rem, 1.5vmin, 1rem);
   border-radius: clamp(0.8rem, 1.5vmin, 1rem);
-  background: rgba(255, 255, 255, 0.08);
-  font-size: clamp(1.5rem, 2.7vmin, 2.5rem);
+  background: hsla(0, 0%, 100%, 0.06);
+  font-size: clamp(1.7rem, 2.5vmin, 2.5rem);
 }
 
 .next_7_days_weather_info_container,
@@ -119,11 +127,9 @@ main {
   margin-block: clamp(1rem, 3dvh, 2rem);
   padding: clamp(1rem, 2.5vmin, 2rem);
   border-radius: clamp(1rem, 2vmin, 1.75rem);
-  background-color: rgba(24, 37, 74, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.16);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background-color: hsla(224, 51%, 19%, 0.4);
+  border: 1px solid hsla(0, 0%, 100%, 0.12);
+  box-shadow: 0 0.5rem 2rem hsla(0, 0%, 0%, 0.16);
 }
 
 .next_7_days_weather_info_container {
@@ -138,10 +144,9 @@ main {
   justify-content: space-between;
   padding: clamp(0.85rem, 1.8vmin, 1.1rem);
   border-radius: clamp(0.8rem, 1.5vmin, 1.1rem);
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  font-size: clamp(1.5rem, 2.7vmin, 2.5rem);
-  color: rgba(255, 255, 255, 0.96);
+  background: hsla(0, 0%, 100%, 0.06);
+  border: 1px solid hsla(0, 0%, 100%, 0.08);
+  font-size: clamp(1.7rem, 2.5vmin, 2.5rem);
 }
 
 .single_day_date_info {
@@ -152,7 +157,7 @@ main {
 }
 
 .single_day_date_info span{
-  border: 1px solid red;
+  /* border: 1px solid red; */
   flex: 1;
 }
 
@@ -162,7 +167,7 @@ main {
 }
 
 .single_day_weather_info_container span:nth-child(1) {
-  color: rgba(255, 255, 255, 0.5);
+  color: hsla(0, 0%, 100%, 0.5);
 }
 
 .single_day_weather_info_container > span:last-child {
@@ -170,18 +175,75 @@ main {
 }
 
 .dash {
-  opacity: .2;
+  opacity: .3;
+}
+
+.additional_current_weather_info_container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+  gap: clamp(0.65rem, 1.2vmin, 1rem);
+}
+
+.weather_metric_card {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.35rem, 1vmin, 0.7rem);
+  min-height: clamp(7rem, 14vmin, 9rem);
+  padding: clamp(1rem, 2vmin, 1.25rem);
+  border-radius: clamp(0.8rem, 1.5vmin, 1.1rem);
+  background: hsla(0, 0%, 100%, 0.06);
+  border: 1px solid hsla(0, 0%, 100%, 0.08);
+}
+
+.additional_weather_info_icon {
+  width: clamp(1.7rem, 2.5vmin, 2.5rem);
+  height: clamp(1.7rem, 2.5vmin, 2.5rem);
+}
+
+.weather_metric_label {
+  font-size: clamp(1.3rem, 1.8vmin, 1.8rem);
+  color: hsla(0, 0%, 100%, 0.5);
+}
+
+.weather_metric_value {
+  font-size: clamp(1.7rem, 2.5vmin, 2.5rem);
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.sun_position_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: clamp(1.3rem, 1.8vmin, 1.8rem);
+}
+
+.sun_position_header div:last-child {
+  text-align: right;
+}
+
+.sun_position_header div div:last-child {
+  color: hsla(0, 0%, 100%, 0.5);
+}
+
+.sun_position_hours {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: clamp(1.7rem, 2.5vmin, 2.5rem);
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.sun_position_hours div:last-child {
+  text-align: right;
+
 }
 
 
-
-
-
-
-
 .loader {
-  width: 48px;
-  height: 48px;
+  width: clamp(2rem, 3vmin, 3rem);
+  height: clamp(2rem, 3vmin, 3rem);
   border-radius: 50%;
   display: inline-block;
   box-sizing: border-box;
