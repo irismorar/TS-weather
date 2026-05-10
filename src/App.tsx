@@ -1,4 +1,6 @@
 import "./App.css";
+import { WeatherBackground } from "./WeatherBackground";
+import { useRef } from "react";
 import { useWeatherData } from "./useWeatherData";
 import { weatherDictionary } from "./weatherDictionary";
 import { CurrentWeatherInfo } from "./CurrentWeatherInfo";
@@ -10,6 +12,14 @@ import { SunPositionInfo } from "./SunPositionInfo";
 export default function App() {
   const { dataError, dataReadyState, weatherData, locationData } =
     useWeatherData();
+
+  const nextSectionRef = useRef<HTMLElement | null>(null);
+
+  function scrollToNextSection() {
+    nextSectionRef.current?.scrollIntoView({
+      behavior: "smooth",
+    });
+  }
 
   if (dataReadyState === "loading") {
     return (
@@ -50,6 +60,7 @@ export default function App() {
   return (
     <main>
       <section className="temperature_main_container">
+        <WeatherBackground weatherCode={current_weather_code} />
         <CurrentWeatherInfo
           current_temperature={current_temperature}
           current_day_name={today_name}
@@ -66,24 +77,33 @@ export default function App() {
             return <SingleHourWeatherInfo key={hour.time} {...hour} />;
           })}
         </section>
+        <button
+          className="scroll_down_button"
+          onClick={scrollToNextSection}
+          aria-label="Scroll to next section"
+        >
+          ⇩
+        </button>
       </section>
 
-      <section className="next_7_days_weather_info_container">
-        {weatherData.data_for_the_next_7_days.map((date) => {
-          return <SingleDayWeatherInfo key={date.day} {...date} />;
-        })}
+      <section ref={nextSectionRef} className="weather_details_section">
+        <section className="next_7_days_weather_info_container">
+          {weatherData.data_for_the_next_7_days.map((date) => {
+            return <SingleDayWeatherInfo key={date.day} {...date} />;
+          })}
+        </section>
+
+        <AdditionalCurrentWeatherInfo
+          uv_index={uv_index}
+          apparent_temperature={current_apparent_temperature}
+          humidity={relative_humidity}
+          wind={wind_speed}
+          air_pressure={air_pressure}
+          visibility={visibility}
+        />
+
+        <SunPositionInfo sunrise={sunrise} sunset={sunset} />
       </section>
-
-      <AdditionalCurrentWeatherInfo
-        uv_index={uv_index}
-        apparent_temperature={current_apparent_temperature}
-        humidity={relative_humidity}
-        wind={wind_speed}
-        air_pressure={air_pressure}
-        visibility={visibility}
-      />
-
-      <SunPositionInfo sunrise={sunrise} sunset={sunset} />
     </main>
   );
 }

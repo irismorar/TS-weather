@@ -39,21 +39,236 @@ main {
 }
 
 .temperature_main_container {
-  /* border: 1px solid red; */
   min-height: 100dvh;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: clamp(10rem, 10vmin, 15rem);
+  gap: clamp(6rem, 8vmin, 12rem);
+  padding-top: clamp(4rem, 12vmin, 7rem);
+}
+
+.scroll_down_button {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(1rem, 3dvh, 2rem);
+  transform: translateX(-50%);
+  width: clamp(3rem, 6vmin, 5rem);
+  height: clamp(3rem, 6vmin, 5rem);
+  border-radius: 999rem;
+  border: none;
+  background: hsla(0, 0%, 100%, 0.12);
+  color: white;
+  font-size: clamp(1.5rem, 4vmin, 3rem);
+  line-height: 1;
+  cursor: pointer;
+  backdrop-filter: blur(clamp(0.25rem, 1vmin, 0.5rem));
+  box-shadow: 0 0.5rem 2rem hsla(0, 0%, 0%, 0.16);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+
+  transition:
+    background-color 250ms ease,
+    transform 250ms ease;
+
+  animation: bounceDown 1.8s infinite;
+
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.scroll_down_button:hover {
+  background: hsla(0, 0%, 100%, 0.2);
+}
+
+@keyframes bounceDown {
+  0%,
+  100% {
+    transform: translate(-50%, 0);
+  }
+
+  50% {
+    transform: translate(
+      -50%,
+      clamp(0.35rem, 1dvh, 0.75rem)
+    );
+  }
 }
 
 .current_weather_info {
-  /* border: 1px solid yellow; */
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   gap: clamp(0.75rem, 1.5vmin, 1.25rem);
+}
+
+.weather_background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: clamp(22rem, 65dvh, 42rem);
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* SUN */
+
+.sun_animation {
+  position: absolute;
+  top: clamp(4rem, 12vmin, 8rem);
+  right: clamp(2rem, 10vmin, 7rem);
+
+  width: clamp(7rem, 22vmin, 14rem);
+  aspect-ratio: 1;
+  border-radius: 50%;
+
+  background: radial-gradient(circle, #ffe9a3, #ffb347 65%, transparent 70%);
+  opacity: 0.7;
+
+  animation: sunPulse 5s ease-in-out infinite;
+}
+
+@keyframes sunPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+
+  50% {
+    transform: scale(1.08);
+    opacity: 0.9;
+  }
+}
+
+/* CLOUD */
+.cloud {
+  position: absolute;
+
+  width: clamp(8rem, 25vmin, 16rem);
+  height: clamp(3rem, 9vmin, 6rem);
+
+  border-radius: 999rem;
+  background: rgba(255, 255, 255, 0.28);
+  filter: blur(0.2rem);
+
+  animation: moveClouds linear infinite;
+}
+
+.cloud::before,
+.cloud::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background: inherit;
+}
+
+.cloud::before {
+  width: 45%;
+  aspect-ratio: 1;
+  left: 18%;
+  top: -45%;
+}
+
+.cloud::after {
+  width: 55%;
+  aspect-ratio: 1;
+  right: 15%;
+  top: -60%;
+}
+
+.cloud_one {
+  top: 15%;
+  left: -30%;
+  animation-duration: 35s;
+}
+
+.cloud_two {
+  top: 35%;
+  left: -40%;
+  animation-duration: 50s;
+  opacity: 0.5;
+}
+
+.cloud_three {
+  top: 55%;
+  left: -35%;
+  animation-duration: 42s;
+  opacity: 0.35;
+}
+
+@keyframes moveClouds {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(150vw);
+  }
+}
+
+/* RAIN */
+
+.rain_drop {
+  --i: 0;
+
+  position: absolute;
+  top: -10%;
+  left: calc(var(--i) * 4.5%);
+
+  width: clamp(0.08rem, 0.35vmin, 0.14rem);
+  height: clamp(1rem, 4vmin, 2rem);
+
+  border-radius: 999rem;
+  background: rgba(255, 255, 255, 0.45);
+
+  animation: rainFall 1.2s linear infinite;
+  animation-delay: calc(var(--i) * -0.08s);
+}
+
+@keyframes rainFall {
+  from {
+    transform: translateY(-10dvh) translateX(0);
+  }
+
+  to {
+    transform: translateY(110dvh) translateX(-4rem);
+  }
+}
+
+/* SNOW */
+
+.snowflake {
+  --i: 0;
+
+  position: absolute;
+  top: -10%;
+  left: calc(var(--i) * 5%);
+
+  font-size: clamp(0.8rem, 3vmin, 1.5rem);
+  color: rgba(255, 255, 255, 0.75);
+
+  animation: snowFall 7s linear infinite;
+  animation-delay: calc(var(--i) * -0.35s);
+}
+
+@keyframes snowFall {
+  from {
+    transform: translateY(-10dvh) translateX(0) rotate(0deg);
+  }
+
+  to {
+    transform: translateY(110dvh) translateX(4rem) rotate(360deg);
+  }
 }
 
 .current_weather_temeprature {
@@ -82,6 +297,8 @@ main {
 }
 
 .hourly_weather_info_container {
+  position: relative;
+  z-index: 2;
   display: flex;
   gap: clamp(0.75rem, 2vmin, 1.5rem);
   width: 100%;
@@ -108,13 +325,13 @@ main {
 .one_hour_weather_info_container {
   flex-grow: 0;
   flex-shrink: 0;
-  width: clamp(7rem, 11%, 12rem);
+  width: clamp(8rem, 15%, 14rem);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: clamp(1rem, 1.5vmin, 2rem);
-  padding: clamp(0.75rem, 1.5vmin, 1rem);
+  padding: clamp(1rem, 2vmin, 1.5rem);
   border-radius: clamp(0.8rem, 1.5vmin, 1rem);
   background: hsla(0, 0%, 100%, 0.06);
   font-size: clamp(1.7rem, 2.5vmin, 2.5rem);
@@ -157,7 +374,6 @@ main {
 }
 
 .single_day_date_info span{
-  /* border: 1px solid red; */
   flex: 1;
 }
 
@@ -211,7 +427,83 @@ main {
   line-height: 1.1;
 }
 
-.sun_position_header {
+.sun_position_container {
+  width: 100%;
+  margin-inline: 0;
+  margin-block: clamp(0.5rem, 1.5dvh, 1rem);
+  padding: clamp(0.85rem, 1.8vmin, 1.2rem);
+  border-radius: clamp(1rem, 2vmin, 1.75rem);
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(clamp(0.5rem, 2vmin, 1rem));
+  box-shadow: 0 0.5rem 2rem hsla(0, 0%, 0%, 0.16);
+  color: white;
+}
+
+.sun_position_title {
+  font-size: clamp(1rem, 1.8vmin, 1.3rem);
+  font-weight: 600;
+  margin-bottom: clamp(0.65rem, 1.3vmin, 1rem);
+}
+
+.sun_arc_container {
+  position: relative;
+  height: clamp(2rem, 5vmin, 3rem);
+  margin-block: clamp(0.5rem, 1.2vmin, 0.8rem);
+  overflow: visible;
+}
+
+.sun_arc {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  height: clamp(0.12rem, 0.3vmin, 0.2rem);
+  border: none;
+  border-radius: 999rem;
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.sun_dot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  bottom: auto;
+  transform: translate(-50%, -50%);
+  width: clamp(0.8rem, 2vmin, 1.2rem);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 0 1.5rem rgba(255, 255, 255, 0.9);
+}
+
+.sun_position_row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.sun_position_row > div {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.sun_position_row > div:last-child {
+  justify-items: end;
+  text-align: right;
+}
+
+.sun_position_row span {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: clamp(0.85rem, 1.4vmin, 1rem);
+}
+
+.sun_position_row strong {
+  font-size: clamp(1.15rem, 2.2vmin, 1.6rem);
+}
+
+/* .sun_position_header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -237,9 +529,7 @@ main {
 
 .sun_position_hours div:last-child {
   text-align: right;
-
-}
-
+} */
 
 .loader {
   width: clamp(2rem, 3vmin, 3rem);

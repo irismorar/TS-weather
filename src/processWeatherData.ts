@@ -33,7 +33,6 @@ export default function processWeatherData(weatherData: WeatherData) {
       apparent_temperature: current_apparent_temperature,
       temperature_2m: current_temeprature,
       relative_humidity_2m: relative_humidity,
-      weather_code: current_weather_code,
       wind_speed_10m: wind_speed,
       pressure_msl: current_air_pressure,
     },
@@ -112,7 +111,7 @@ export default function processWeatherData(weatherData: WeatherData) {
     current_date: data_for_the_next_7_days[0].day,
     today_name: todayName,
     is_day,
-    current_weather_code: current_weather_code,
+    current_weather_code: data_for_the_next_24_hours[0].weather_code,
     current_min_temperature,
     current_max_temperature,
     current_apparent_temperature: formatTemperature(
