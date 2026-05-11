@@ -53,6 +53,7 @@ export default function App() {
     sunrise,
     sunset,
     uv_index,
+    is_day,
   } = weatherData;
 
   const { location } = locationData;
@@ -60,7 +61,10 @@ export default function App() {
   return (
     <main>
       <section className="temperature_main_container">
-        <WeatherBackground weatherCode={current_weather_code} />
+        <WeatherBackground
+          weatherCode={current_weather_code}
+          isDay={Boolean(is_day)}
+        />
         <CurrentWeatherInfo
           current_temperature={current_temperature}
           current_day_name={today_name}
