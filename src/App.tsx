@@ -54,6 +54,8 @@ export default function App() {
     sunset,
     uv_index,
     is_day,
+    data_for_the_next_24_hours,
+    data_for_the_next_7_days,
   } = weatherData;
 
   const { location } = locationData;
@@ -77,7 +79,7 @@ export default function App() {
           location={location}
         />
         <section className="hourly_weather_info_container">
-          {weatherData.data_for_the_next_24_hours.map((hour) => {
+          {data_for_the_next_24_hours.map((hour) => {
             return <SingleHourWeatherInfo key={hour.time} {...hour} />;
           })}
         </section>
@@ -92,7 +94,7 @@ export default function App() {
 
       <section ref={nextSectionRef} className="weather_details_section">
         <section className="next_7_days_weather_info_container">
-          {weatherData.data_for_the_next_7_days.map((date) => {
+          {data_for_the_next_7_days.map((date) => {
             return <SingleDayWeatherInfo key={date.day} {...date} />;
           })}
         </section>
